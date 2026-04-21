@@ -1,0 +1,34 @@
+# Aerial Detection Configuration
+
+# Model settings
+model:
+  size: "x"              # n, s, m, l, x, xl - xlarge recommended for A100
+  confidence: 0.45       # Detection confidence threshold
+  iou: 0.45              # IoU threshold for NMS
+  device: "cuda"         # cuda or cpu
+
+# Video processing
+video:
+  output_format: "mp4v"  # Video codec
+  preserve_fps: true     # Keep original FPS
+  preserve_resolution: true  # Keep original resolution
+
+# Visualization
+visualization:
+  box_color: [255, 0, 0]   # BGR: Blue
+  box_thickness: 2         # Line thickness in pixels
+  label_background: true   # Draw background for labels
+  font_scale: 0.6
+  font_thickness: 1
+
+# Performance
+performance:
+  gpu_memory_limit: 50    # GB for A100
+  batch_inference: false  # Batch frames if needed
+  half_precision: false   # Use FP16 for speed (A100 can handle FP32)
+
+# Output
+output:
+  directory: "./output_videos"
+  prefix: "detected_"
+  timestamp: false        # Add timestamp to output
