@@ -5,3 +5,4 @@ env/
 
 # Python
 __pycache__/
+*.pt

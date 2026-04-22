@@ -3,11 +3,11 @@
 
 import argparse
 from pathlib import Path
-from aerial_detection import AerialDetectionPipeline
+from aerial_detection import load_model, process_video
 from tqdm import tqdm
 
 
-def process_directory(input_dir, output_dir, model_size="x", confidence=0.45):
+def process_directory(input_dir, output_dir, model_name="yolov9e", confidence=0.15):
     """Process all video files in a directory."""
     input_dir = Path(input_dir)
     output_dir = Path(output_dir)
@@ -22,13 +22,12 @@ def process_directory(input_dir, output_dir, model_size="x", confidence=0.45):
 
     print(f"Found {len(videos)} video(s) to process\n")
 
-    pipeline = AerialDetectionPipeline(model_size=model_size, confidence=confidence)
+    model = load_model(model_name)
 
     for video_file in tqdm(videos, desc="Processing Videos"):
         output_path = output_dir / f"detected_{video_file.name}"
         try:
-            print(f"\nProcessing: {video_file.name}")
-            pipeline.process_video(video_file, output_path)
+            process_video(model, video_file, output_path, confidence)
         except Exception as e:
             print(f"Error processing {video_file.name}: {e}")
 
@@ -38,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("input_dir", help="Directory containing video files")
     parser.add_argument("--output", "-o", default="./output_videos",
                        help="Output directory")
-    parser.add_argument("--model", "-m", default="x", help="YOLOv8 model size")
+    parser.add_argument("--model", "-m", default="yolov9e", help="YOLO model name")
     parser.add_argument("--confidence", "-c", type=float, default=0.45,
                        help="Detection confidence threshold")
 
