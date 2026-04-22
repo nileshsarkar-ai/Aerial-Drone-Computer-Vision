@@ -22,7 +22,7 @@ def process_directory(input_dir, output_dir, model_name="yolov9e", confidence=0.
 
     print(f"Found {len(videos)} video(s) to process\n")
 
-    model = load_model(model_name)
+    model = load_model(confidence)
 
     for video_file in tqdm(videos, desc="Processing Videos"):
         output_path = output_dir / f"detected_{video_file.name}"
